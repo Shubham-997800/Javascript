@@ -170,3 +170,185 @@ execute(() => {
     console.log("Hello Bro!");
 });
 
+
+// Higher Order Function :- A Higher Order Function wo function hota hai jo ek ya zyada functions ko argument ke roop mein accept kare, OR ek function return kare.
+// Example :-
+function execute(fn) {
+    fn();
+}
+// execute() ek Higher Order Function hai, kyunki ye function ko argument ke roop mein accept kar raha hai.
+function greet() {
+    console.log("Hello");
+}
+execute(greet);
+
+// Yahan :-execute → Higher - Order Function greet → Callback Function 
+// 2. Callback vs Higher - Order Function
+
+// HOF ka real power :- Suppose hume numbers par different operations perform karne hain.
+function add(a, b) {
+    return a + b;
+}
+function multiply(a, b) {
+    return a * b;
+}
+// Ab ek common function:
+function calculate(a, b, operation) {
+    return operation(a, b);
+}
+console.log(calculate(10, 20, add));
+console.log(calculate(10, 20, multiply));
+
+// HOF + Arrow Function :-Modern JavaScript mein ye aur concise ho sakta hai:
+function calculate(a, b, operation) {
+    return operation(a, b);
+}
+console.log(calculate(10, 20, (a, b) => a + b));
+console.log(calculate(10, 20, (a, b) => a * b));
+// Yahan anonymous arrow function callback ke role mein hai.
+// HOF ka ek aur example :- 
+function repeat(action) {
+    action();
+    action();
+    action();
+}
+repeat(() => {
+    console.log("Hello");
+});
+repeat()  // HOF
+// Arrow function → Callback
+
+
+// Rest Parameters ... :-Jab hume pata nahi ho ki function ko kitne arguments milenge, rest parameter use kar sakte hain.
+function add(...numbers) {
+    console.log(numbers);
+}
+add(10, 20, 30, 40);
+// Rest parameter remaining arguments ko collect karta hai.
+
+
+// Spread with Functions ... :- Rest aur Spread ka syntax same ...hai, kaam opposite hai.
+// Rest function add(...numbers) { } Arguments ko collect karta hai.
+// Spread let numbers = [10, 20, 30]; add(...numbers); Values ko spread / unpack karta hai.
+// Example :- 
+function add(a, b, c) {
+    return a + b + c;
+}
+let numbers = [10, 20, 30];
+console.log(add(...numbers));
+
+
+// arguments Object :- Normal functions ke andar JavaScript ek special object - like value provide karta hai:
+// Example :-
+function add() {
+    let total = 0;
+    for (let i = 0; i < arguments.length; i++) {
+        total += arguments[i];
+    }
+    return total;
+}
+console.log(add(10, 20, 30));
+
+// Nested Functions :- Ek function ke andar doosra function define kar sakte ho.
+function outer() {
+    function inner() {
+        console.log("Hello");
+    }
+    inner();
+}
+outer();
+
+// Nested function outer function ke variables access kar sakta hai:
+function outer() {
+    let name = "Shubham";
+    function inner() {
+        console.log(name);
+    }
+    inner();
+}
+outer();
+
+
+// Lexical Scope :- Lexical scope ka matlab hai ki variable access ka scope function ke code mein uski position / definition se determine hota hai.
+// Example :-
+let name = "Global";
+function outer() {
+    let name = "Outer";
+    function inner() {
+        console.log(name);
+    }
+    inner();
+}
+outer();
+
+// Closures :- Ab Function chapter ka one of the most important concepts.
+// Example :-
+function counter() {
+    let count = 0;
+    return function () {
+        count++;
+        return count;
+    };
+}
+const increment = counter();
+console.log(increment());
+console.log(increment());
+console.log(increment());
+
+// IIFE :- Immediately Invoked Function Expression . Function expression jo define hote hi immediately execute ho jaye.
+// Example :- 
+(function () {
+    console.log("Hello");
+})();
+(function () {
+    console.log("Hello");
+})
+    // Parameters bhi de sakte ho
+
+    (function (name) {
+        console.log("Hello " + name);
+    })("Shubham");
+
+// IIFE historically private scope / create isolated code ke liye commonly use hota tha.Modern JavaScript mein modules aur block scope ki wajah se iska usage kam hua hai, but concept important hai.
+
+
+// this with Normal Functions :- this ki value function ko kaise call kiya gaya hai, us par depend kar sakti hai.
+// Example :-
+const user = {
+    name: "Shubham",
+    greet: function () {
+        console.log(this.name);
+    }
+};
+user.greet();
+// yahan this user object ko refer kar raha hai.
+
+// Arrow Function + this :- Arrow functions ka this normal function jaisa nahi hota.Arrow function apna this create nahi karta.
+// Example :-
+const user = {
+    name: "Shubham",
+    greet: () => {
+        console.log(this.name);
+    }
+};
+user.greet();
+
+// Function Composition :- Do functions ko combine karke ek function ka output doosre function ke input mein de sakte ho.
+// Example :-
+function double(x) {
+    return x * 2;
+}
+function addTen(x) {
+    return x + 10;
+}
+let result = addTen(double(5));
+console.log(result);
+
+// Functions with Objects :- Functions objects ke andar methods ke roop mein bhi use hote hain.
+const user = {
+    name: "Shubham",
+    greet: function () {
+        console.log("Hello " + this.name);
+    }
+};
+user.greet();
