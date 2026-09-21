@@ -86,8 +86,10 @@ const extraStopCharge = numberOfStops * 40;
 
 // Standard meter fare
 let standardFare = baseFare + distanceFare + travelTimeFare + totalWaitingCharge + extraStopCharge;
+let isMinFareApplied = false;
 if (standardFare < minFare) {
     standardFare = minFare;
+    isMinFareApplied = true;
 }
 
 // Surge pricing based on demand level
@@ -138,7 +140,7 @@ const promoCouponCode = "MEGA50";
 const couponDiscount = 60;
 const driverTip = 30;
 
-const finalAmount = (grossFare - couponDiscount) + driverTip;
+const finalAmount = Math.max(0, grossFare - couponDiscount) + driverTip;
 
 const paymentMethod = "UPI / PhonePe";
 const rideStatus = "Completed";
@@ -164,13 +166,16 @@ console.log(`En-route Stops : ${numberOfStops} Stop(s)`);
 
 console.log("----------------------------------------");
 console.log(`Base Fare      : ₹${baseFare.toFixed(2)}`);
-console.log(`Distance Fare  : ₹${distanceFare.toFixed(2)} (${distanceKm} km × ₹${perKmRate})`);
-console.log(`Time Fare      : ₹${travelTimeFare.toFixed(2)} (${rideDurationMinutes} mins × ₹${perMinuteRate})`);
+console.log(`Distance Fare  : ₹${distanceFare.toFixed(2)} (${distanceKm} km × ₹${perKmRate.toFixed(2)})`);
+console.log(`Time Fare      : ₹${travelTimeFare.toFixed(2)} (${rideDurationMinutes} mins × ₹${perMinuteRate.toFixed(2)})`);
 if (totalWaitingCharge > 0) {
     console.log(`Waiting Charge : ₹${totalWaitingCharge.toFixed(2)}`);
 }
 if (extraStopCharge > 0) {
     console.log(`Stops Surcharge: ₹${extraStopCharge.toFixed(2)}`);
+}
+if (isMinFareApplied) {
+    console.log(`Min Fare Notice: ₹${minFare.toFixed(2)} minimum ride threshold applied`);
 }
 if (surgeMultiplier > 1.0) {
     console.log(`Surge (${surgeMultiplier}x ${demandTrafficLevel}): ₹${surgeAmount.toFixed(2)}`);
@@ -178,16 +183,17 @@ if (surgeMultiplier > 1.0) {
 if (isNightRide) {
     console.log(`Night Charge   : ₹${nightSurcharge.toFixed(2)} (10%)`);
 }
-console.log(`Tolls & Airport: ₹${totalAccessTolls.toFixed(2)} (Toll: ₹${tollCharges}, Airport: ₹${airportParkingFee})`);
+console.log(`Tolls & Airport: ₹${totalAccessTolls.toFixed(2)} (Toll: ₹${tollCharges.toFixed(2)}, Airport: ₹${airportParkingFee.toFixed(2)})`);
 
 console.log("----------------------------------------");
 console.log(`Taxable Subtotal: ₹${rideTaxableSubtotal.toFixed(2)}`);
 console.log(`CGST (2.5%)     : ₹${cgstAmount.toFixed(2)}`);
 console.log(`SGST (2.5%)     : ₹${sgstAmount.toFixed(2)}`);
+console.log(`Total GST (5%)  : ₹${totalGst.toFixed(2)}`);
 console.log(`Gross Total     : ₹${grossFare.toFixed(2)}`);
 console.log(`Coupon Discount : -₹${couponDiscount.toFixed(2)} (${promoCouponCode})`);
 console.log(`Driver Tip      : ₹${driverTip.toFixed(2)}`);
-console.log(`Final Payable   : ₹${finalAmount.toFixed(2)}`);
+console.log(`FINAL PAYABLE   : ₹${finalAmount.toFixed(2)}`);
 
 console.log("----------------------------------------");
 console.log(`Payment Mode    : ${paymentMethod}`);

@@ -66,11 +66,11 @@ const totalTaxes = ticketGst + fnbGst + convenienceGst;
 
 const subtotalBeforeDiscount = totalTicketsAmount + totalGlassesCharge + totalFnBCharges + totalConvenienceFee + totalTaxes;
 
-// Bank Credit Card BOGO (Buy 1 Get 1 Free Ticket discount)
+// Bank Credit Card BOGO (Buy 1 Get 1 Free Ticket discount - valid on 2+ seats)
 const promoCode = "BOGOPVR";
-const cardOfferDiscount = ticketBasePrice; // 1 Free Ticket discount
+const cardOfferDiscount = numberOfSeats >= 2 ? ticketBasePrice : 0; // 1 Free Ticket discount
 
-const finalPayable = subtotalBeforeDiscount - cardOfferDiscount;
+const finalPayable = Math.max(0, subtotalBeforeDiscount - cardOfferDiscount);
 
 const paymentMethod = "Credit Card (Visa Signature)";
 const bookingStatus = "Confirmed - M-Ticket Issued";
@@ -88,29 +88,29 @@ console.log(`Show Timing    : ${showDate} | ${showTime}`);
 console.log(`Seats (${seatCategory}) : ${selectedSeats} (${numberOfSeats} Seats)`);
 
 console.log("--------------------------------------------------");
-console.log(`Tickets Tariff : ₹${ticketBasePrice} × ${numberOfSeats} = ₹${totalTicketsAmount.toFixed(2)}`);
+console.log(`Tickets Tariff : ₹${ticketBasePrice.toFixed(2)} × ${numberOfSeats} = ₹${totalTicketsAmount.toFixed(2)}`);
 if (is3DExperience) {
-    console.log(`3D Glasses Fee : ₹${glassesChargePerPax} × ${numberOfSeats} = ₹${totalGlassesCharge.toFixed(2)}`);
+    console.log(`3D Glasses Fee : ₹${glassesChargePerPax.toFixed(2)} × ${numberOfSeats} = ₹${totalGlassesCharge.toFixed(2)}`);
 }
 console.log(`F&B Combo 1    : ${combo1Name} = ₹${(combo1Price * combo1Qty).toFixed(2)}`);
 console.log(`F&B Combo 2    : ${combo2Name} = ₹${(combo2Price * combo2Qty).toFixed(2)}`);
 console.log(`Convenience Fee: ₹${totalConvenienceFee.toFixed(2)} (Online Service Fee)`);
 
 console.log("--------------------------------------------------");
-console.log(`Ticket GST(18%): ₹${ticketGst.toFixed(2)}`);
-console.log(`F&B GST (5%)   : ₹${fnbGst.toFixed(2)}`);
-console.log(`Conv. GST (18%): ₹${convenienceGst.toFixed(2)}`);
-console.log(`Total Taxes    : ₹${totalTaxes.toFixed(2)}`);
+console.log(`Ticket GST (18%): ₹${ticketGst.toFixed(2)}`);
+console.log(`F&B GST (5%)    : ₹${fnbGst.toFixed(2)}`);
+console.log(`Conv. GST (18%) : ₹${convenienceGst.toFixed(2)}`);
+console.log(`Total Taxes     : ₹${totalTaxes.toFixed(2)}`);
 
 console.log("--------------------------------------------------");
-console.log(`Subtotal       : ₹${subtotalBeforeDiscount.toFixed(2)}`);
-console.log(`BOGO Offer     : -₹${cardOfferDiscount.toFixed(2)} (${promoCode})`);
-console.log(`FINAL PAYABLE  : ₹${finalPayable.toFixed(2)}`);
+console.log(`Subtotal        : ₹${subtotalBeforeDiscount.toFixed(2)}`);
+console.log(`BOGO Offer      : -₹${cardOfferDiscount.toFixed(2)} (${promoCode})`);
+console.log(`FINAL PAYABLE   : ₹${finalPayable.toFixed(2)}`);
 
 console.log("--------------------------------------------------");
-console.log(`Payment Mode   : ${paymentMethod}`);
-console.log(`Booking Status : ${bookingStatus}`);
-console.log(`Entry Passcode : [QR-CODE: ${bookingId}-SEC-44]`);
+console.log(`Payment Mode    : ${paymentMethod}`);
+console.log(`Booking Status  : ${bookingStatus}`);
+console.log(`Entry Passcode  : [QR-CODE: ${bookingId}-SEC-44]`);
 
 console.log("==================================================");
 console.log("        🍿 ENJOY YOUR CINEMA EXPERIENCE!");

@@ -80,7 +80,7 @@ const totalGst = cgst + sgst;
 
 const orderGrossTotal = taxableFoodSubtotal + totalGst;
 
-// Coupon code offer (e.g. 50% discount up to ₹120)
+// Coupon code offer (e.g. 50% discount up to ₹120 on food charges)
 const promoCoupon = "TASTY120";
 let couponDiscount = (totalFoodCharges * 50) / 100;
 if (couponDiscount > 120) {
@@ -91,7 +91,7 @@ if (couponDiscount > 120) {
 const deliveryPartnerTip = 30;
 
 // Final payable
-const finalPayable = (orderGrossTotal - couponDiscount) + deliveryPartnerTip;
+const finalPayable = Math.max(0, orderGrossTotal - couponDiscount) + deliveryPartnerTip;
 
 const paymentMethod = "UPI / GooglePay";
 const orderStatus = "Food is Being Prepared";
@@ -111,10 +111,10 @@ console.log(`Est. Delivery  : ~${estimatedDeliveryMinutes} Minutes`);
 console.log("--------------------------------------------------");
 console.log("Item Details                   Price   Qty  Subtotal");
 console.log("--------------------------------------------------");
-console.log(`${item1Name.padEnd(30)} ₹${item1Price.toString().padStart(4)}    ${item1Qty}   ₹${subtotalItem1.toFixed(2).padStart(7)}`);
-console.log(`${item2Name.padEnd(30)} ₹${item2Price.toString().padStart(4)}    ${item2Qty}   ₹${subtotalItem2.toFixed(2).padStart(7)}`);
-console.log(`${item3Name.padEnd(30)} ₹${item3Price.toString().padStart(4)}    ${item3Qty}   ₹${subtotalItem3.toFixed(2).padStart(7)}`);
-console.log(`${item4Name.padEnd(30)} ₹${item4Price.toString().padStart(4)}    ${item4Qty}   ₹${subtotalItem4.toFixed(2).padStart(7)}`);
+console.log(`${item1Name.padEnd(29)} ₹${item1Price.toFixed(2).padStart(6)}   ${item1Qty.toString().padStart(2)}  ₹${subtotalItem1.toFixed(2).padStart(8)}`);
+console.log(`${item2Name.padEnd(29)} ₹${item2Price.toFixed(2).padStart(6)}   ${item2Qty.toString().padStart(2)}  ₹${subtotalItem2.toFixed(2).padStart(8)}`);
+console.log(`${item3Name.padEnd(29)} ₹${item3Price.toFixed(2).padStart(6)}   ${item3Qty.toString().padStart(2)}  ₹${subtotalItem3.toFixed(2).padStart(8)}`);
+console.log(`${item4Name.padEnd(29)} ₹${item4Price.toFixed(2).padStart(6)}   ${item4Qty.toString().padStart(2)}  ₹${subtotalItem4.toFixed(2).padStart(8)}`);
 
 console.log("--------------------------------------------------");
 console.log(`Items Total    : ${totalItemsCount} items = ₹${foodItemsTotal.toFixed(2)}`);
@@ -127,16 +127,18 @@ if (dipSauceAddon) {
 console.log(`Packaging Fee  : ₹${packagingFee.toFixed(2)}`);
 console.log(`Platform Fee   : ₹${platformFee.toFixed(2)}`);
 if (isGoldMember) {
-    console.log(`Delivery Fee   : FREE (Gold Member Benefit, Saved ₹${standardDeliveryFee})`);
+    console.log(`Delivery Fee   : FREE (Gold Member Benefit, Saved ₹${standardDeliveryFee.toFixed(2)})`);
 } else {
     console.log(`Delivery Fee   : ₹${finalDeliveryFee.toFixed(2)}`);
 }
 if (isRainSurge) {
-    console.log(`Rain Surcharge : ₹${weatherSurgeFee.toFixed(2)} (Fair-weather bonus for partner)`);
+    console.log(`Rain Surcharge : ₹${weatherSurgeFee.toFixed(2)} (Inclement weather compensation for partner)`);
 }
 
 console.log("--------------------------------------------------");
-console.log(`GST (5%)       : ₹${totalGst.toFixed(2)} (CGST 2.5% + SGST 2.5%)`);
+console.log(`CGST (2.5%)    : ₹${cgst.toFixed(2)}`);
+console.log(`SGST (2.5%)    : ₹${sgst.toFixed(2)}`);
+console.log(`Total GST (5%) : ₹${totalGst.toFixed(2)}`);
 console.log(`Gross Total    : ₹${orderGrossTotal.toFixed(2)}`);
 console.log(`Promo Coupon   : -₹${couponDiscount.toFixed(2)} (${promoCoupon})`);
 console.log(`Rider Tip      : ₹${deliveryPartnerTip.toFixed(2)} (100% goes to driver)`);

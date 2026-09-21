@@ -18,7 +18,7 @@ const totalUnitsConsumed = currentReading - previousReading; // 385 units
 // Solar Rooftop Net-Metering
 const hasSolarNetMetering = true;
 const solarUnitsExported = 65; // Solar power generated & exported to grid
-const netBilledUnits = hasSolarNetMetering ? (totalUnitsConsumed - solarUnitsExported) : totalUnitsConsumed;
+const netBilledUnits = hasSolarNetMetering ? Math.max(0, totalUnitsConsumed - solarUnitsExported) : totalUnitsConsumed;
 
 // Tariff determination based on Connection Type
 let fixedRatePerKw;
@@ -117,7 +117,7 @@ const securityDepositInterestCredit = 42.50;
 const totalRebates = promptRebate + digitalPaymentDiscount + solarGreenIncentive + securityDepositInterestCredit;
 
 // Final Payable Amount
-const finalPayable = grossBillAmount - totalRebates;
+const finalPayable = Math.max(0, grossBillAmount - totalRebates);
 
 const paymentMethod = "UPI / Auto-Debit";
 const billStatus = "Paid";
@@ -146,8 +146,13 @@ if (hasSolarNetMetering) {
 
 console.log("--------------------------------------------------");
 console.log(`Energy Charges : ₹${energyCharges.toFixed(2)} (Tiered Slab Tariffs)`);
-console.log(`Fixed Demand   : ₹${fixedDemandCharges.toFixed(2)} (${sanctionedLoadKw} kW × ₹${fixedRatePerKw})`);
-console.log(`FAC Charges    : ₹${totalFacCharges.toFixed(2)} (₹${facRatePerUnit}/kWh)`);
+if (slab1Charge > 0) console.log(`  - Slab 1 (0-100u)  : ₹${slab1Charge.toFixed(2)} (@ ₹${slab1Rate.toFixed(2)}/u)`);
+if (slab2Charge > 0) console.log(`  - Slab 2 (101-300u): ₹${slab2Charge.toFixed(2)} (@ ₹${slab2Rate.toFixed(2)}/u)`);
+if (slab3Charge > 0) console.log(`  - Slab 3 (301-500u): ₹${slab3Charge.toFixed(2)} (@ ₹${slab3Rate.toFixed(2)}/u)`);
+if (slab4Charge > 0) console.log(`  - Slab 4 (>500u)   : ₹${slab4Charge.toFixed(2)} (@ ₹${slab4Rate.toFixed(2)}/u)`);
+
+console.log(`Fixed Demand   : ₹${fixedDemandCharges.toFixed(2)} (${sanctionedLoadKw} kW × ₹${fixedRatePerKw.toFixed(2)})`);
+console.log(`FAC Charges    : ₹${totalFacCharges.toFixed(2)} (₹${facRatePerUnit.toFixed(2)}/kWh)`);
 console.log(`Green Cess     : ₹${greenEnergyCess.toFixed(2)} (Renewable Surcharge)`);
 console.log(`State Duty (9%): ₹${dutyAmount.toFixed(2)}`);
 

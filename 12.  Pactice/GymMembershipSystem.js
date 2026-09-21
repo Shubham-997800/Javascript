@@ -1,10 +1,17 @@
 const memberName = "Shubham";
 const membershipId = "FIT-2026-7734";
-const gymName = "Iron Fitness Club";
+const gymName = "Iron Fitness Elite Club";
+const gymBranch = "Andheri West Platinum Center";
+const trainerName = "Vikram Rathore (K11 Certified Master Trainer)";
+const fitnessGoal = "Strength Training & Lean Muscle Mass";
+const startDate = "01-Oct-2026";
+const expiryDate = "30-Sep-2027";
+
 const planType = "Annual"; // Monthly, Quarterly, Half-Yearly, Annual
 const includeTrainer = true;
 const includeLocker = true;
-const includeSauna = false;
+const includeSauna = true;
+const includeDietPlan = true;
 
 let basePrice;
 let durationMonths;
@@ -38,6 +45,7 @@ switch (planType) {
 }
 
 const registrationFee = 500;
+
 let trainerFee = 0;
 if (includeTrainer) {
     trainerFee = 1500 * durationMonths;
@@ -53,64 +61,81 @@ if (includeSauna) {
     saunaFee = 400 * durationMonths;
 }
 
-const servicesTotal = basePrice + trainerFee + lockerFee + saunaFee + registrationFee;
+let dietPlanFee = 0;
+if (includeDietPlan) {
+    dietPlanFee = 1200; // One-time customized nutritionist meal roadmap
+}
 
-// Plan discount calculation
+const servicesTotal = basePrice + trainerFee + lockerFee + saunaFee + dietPlanFee + registrationFee;
+
+// Plan discount calculation (applied on base plan price)
 const planDiscount = (basePrice * discountPercent) / 100;
 const discountedSubtotal = servicesTotal - planDiscount;
 
-// GST 18%
+// GST 18% (9% CGST + 9% SGST)
 const gstRate = 18;
-const gstAmount = (discountedSubtotal * gstRate) / 100;
+const cgstAmount = (discountedSubtotal * 9) / 100;
+const sgstAmount = (discountedSubtotal * 9) / 100;
+const totalGst = cgstAmount + sgstAmount;
 
-const totalAmount = discountedSubtotal + gstAmount;
+const totalAmount = discountedSubtotal + totalGst;
 
-// Referral bonus / special coupon
+// Referral bonus / special promo coupon
+const promoCode = "FITPASS300";
 const referralDiscount = 300;
-const finalAmount = totalAmount - referralDiscount;
+const finalAmount = Math.max(0, totalAmount - referralDiscount);
 
-const paymentMethod = "UPI";
-const membershipStatus = "Active";
+const paymentMethod = "UPI / PhonePe AutoPay";
+const membershipStatus = "Active & Verified";
 
-console.log("========================================");
-console.log("      🏋️ GYM MEMBERSHIP INVOICE");
-console.log("========================================");
+console.log("==================================================");
+console.log("            🏋️ GYM MEMBERSHIP INVOICE");
+console.log("==================================================");
 
 console.log(`Member ID      : ${membershipId}`);
 console.log(`Member Name    : ${memberName}`);
 console.log(`Fitness Center : ${gymName}`);
-console.log(`Plan Category  : ${planType} (${durationMonths} Months)`);
+console.log(`Branch Center  : ${gymBranch}`);
+console.log(`Fitness Goal   : ${fitnessGoal}`);
+console.log(`Validity Period: ${startDate} to ${expiryDate}`);
+console.log(`Plan Category  : ${planType} (${durationMonths} Months Access)`);
 
-console.log("----------------------------------------");
-console.log(`Base Plan Fee  : ₹${basePrice}`);
-console.log(`Registration   : ₹${registrationFee}`);
+console.log("--------------------------------------------------");
+console.log(`Base Plan Fee  : ₹${basePrice.toFixed(2)} (${durationMonths} Months)`);
+console.log(`Registration   : ₹${registrationFee.toFixed(2)} (One-time Admission)`);
 if (includeTrainer) {
-    console.log(`Personal Coach : ₹${trainerFee} (${durationMonths} mo)`);
+    console.log(`Personal Coach : ₹${trainerFee.toFixed(2)} (${durationMonths} mo with ${trainerName})`);
 }
 if (includeLocker) {
-    console.log(`Locker Rental  : ₹${lockerFee} (${durationMonths} mo)`);
+    console.log(`Locker Rental  : ₹${lockerFee.toFixed(2)} (${durationMonths} mo Dedicated Smart Locker)`);
 }
 if (includeSauna) {
-    console.log(`Spa/Sauna Pass : ₹${saunaFee} (${durationMonths} mo)`);
+    console.log(`Spa & Sauna    : ₹${saunaFee.toFixed(2)} (${durationMonths} mo Hydrotherapy Pass)`);
+}
+if (includeDietPlan) {
+    console.log(`Diet Blueprint : ₹${dietPlanFee.toFixed(2)} (Custom Clinical Nutrition Plan)`);
 }
 
-console.log("----------------------------------------");
-console.log(`Gross Charges  : ₹${servicesTotal}`);
+console.log("--------------------------------------------------");
+console.log(`Gross Charges  : ₹${servicesTotal.toFixed(2)}`);
 if (planDiscount > 0) {
-    console.log(`Plan Offer(${discountPercent}%): ₹${planDiscount.toFixed(2)}`);
+    console.log(`Tier Discount  : -₹${planDiscount.toFixed(2)} (${discountPercent}% Off Base Fee)`);
 }
 console.log(`Taxable Amount : ₹${discountedSubtotal.toFixed(2)}`);
-console.log(`GST (18%)      : ₹${gstAmount.toFixed(2)}`);
-console.log(`Referral Promo : ₹${referralDiscount.toFixed(2)}`);
-console.log(`Final Payable  : ₹${finalAmount.toFixed(2)}`);
+console.log(`CGST (9%)      : ₹${cgstAmount.toFixed(2)}`);
+console.log(`SGST (9%)      : ₹${sgstAmount.toFixed(2)}`);
+console.log(`Total GST (18%): ₹${totalGst.toFixed(2)}`);
+console.log(`Referral Promo : -₹${referralDiscount.toFixed(2)} (${promoCode})`);
+console.log(`FINAL PAYABLE  : ₹${finalAmount.toFixed(2)}`);
 
-console.log("----------------------------------------");
+console.log("--------------------------------------------------");
 console.log(`Payment Mode   : ${paymentMethod}`);
-console.log(`Status         : ${membershipStatus}`);
+console.log(`Access Status  : ${membershipStatus}`);
 
-console.log("========================================");
+console.log("==================================================");
 console.log("       💪 SWEAT TODAY, SHINE TOMORROW!");
-console.log("========================================");
+console.log("     Free locker access & hydration booth included");
+console.log("==================================================");
 
 console.log(typeof memberName);
 console.log(typeof membershipId);

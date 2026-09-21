@@ -83,10 +83,11 @@ console.log(`Total Sum       : ${totalSum}`);
 console.log(`Arithmetic Mean : ${averageMean.toFixed(2)}`);
 console.log(`Even Numbers    : ${evenCount} (Sum: ${evenSum})`);
 console.log(`Odd Numbers     : ${oddCount} (Sum: ${oddSum})`);
-console.log(`Multiples (3 & 5): ${fizzBuzzCount} numbers`);
-console.log(`Multiples of 3  : ${fizzCount} numbers`);
-console.log(`Multiples of 5  : ${buzzCount} numbers`);
-console.log(`Prime Numbers   : ${primeCount} found (e.g. ${primeNumbers.join(", ")}...)`);
+console.log(`Multiples (3 & 5): ${fizzBuzzCount} numbers (FizzBuzz)`);
+console.log(`Multiples of 3  : ${fizzCount} numbers (Fizz)`);
+console.log(`Multiples of 5  : ${buzzCount} numbers (Buzz)`);
+const primeEllipsis = primeNumbers.length < primeCount ? "..." : "";
+console.log(`Prime Numbers   : ${primeCount} found (e.g. ${primeNumbers.join(", ")}${primeEllipsis})`);
 console.log(`Perfect Squares : ${perfectSquareCount} found (${perfectSquares.join(", ")})`);
 
 console.log("----------------------------------------------------------");
@@ -106,23 +107,47 @@ for (let f = 1; f < targetSampleNumber; f++) {
 // Perfect number check (Sum of proper divisors equals number, e.g., 6, 28, 496)
 const isPerfectNumber = (factorSum === targetSampleNumber);
 
-// Digit count and sum
-let temp = targetSampleNumber;
-let sumOfDigits = 0;
-let digitCount = 0;
-while (temp > 0) {
-    sumOfDigits += temp % 10;
-    temp = Math.floor(temp / 10);
-    digitCount++;
+// Prime check on target number
+let isTargetPrime = targetSampleNumber > 1;
+for (let p = 2; p * p <= targetSampleNumber; p++) {
+    if (targetSampleNumber % p === 0) {
+        isTargetPrime = false;
+        break;
+    }
 }
 
+// Digit count, digit array, and digit sum
+let temp = targetSampleNumber;
+let sumOfDigits = 0;
+let digits = [];
+while (temp > 0) {
+    const digit = temp % 10;
+    digits.unshift(digit);
+    sumOfDigits += digit;
+    temp = Math.floor(temp / 10);
+}
+const digitCount = digits.length;
+
+// Palindrome check
+const numStr = targetSampleNumber.toString();
+const isPalindrome = numStr === numStr.split("").reverse().join("");
+
+// Armstrong / Narcissistic check (sum of each digit raised to power of digitCount)
+const armstrongSum = digits.reduce((acc, d) => acc + Math.pow(d, digitCount), 0);
+const isArmstrongNumber = (armstrongSum === targetSampleNumber);
+
+console.log(`Parity Type     : ${targetSampleNumber % 2 === 0 ? "Even Number" : "Odd Number"}`);
+console.log(`Is Prime?       : ${isTargetPrime ? "YES (Prime)" : "NO (Composite)"}`);
 console.log(`Proper Divisors : ${factors.join(", ")}`);
 console.log(`Sum of Divisors : ${factorSum}`);
 console.log(`Is Perfect No.? : ${isPerfectNumber ? "YES (Rare Perfect Number!)" : "NO"}`);
-console.log(`Digits Count    : ${digitCount}`);
+console.log(`Digits Count    : ${digitCount} digits [${digits.join(", ")}]`);
 console.log(`Sum of Digits   : ${sumOfDigits}`);
+console.log(`Is Palindrome?  : ${isPalindrome ? "YES" : "NO"}`);
+console.log(`Is Armstrong?   : ${isArmstrongNumber ? "YES" : "NO"}`);
 console.log(`Square Value    : ${targetSampleNumber ** 2}`);
 console.log(`Cube Value      : ${targetSampleNumber ** 3}`);
+console.log(`Square Root     : ${Math.sqrt(targetSampleNumber).toFixed(4)}`);
 console.log(`Binary Format   : 0b${targetSampleNumber.toString(2)}`);
 console.log(`Hexadecimal     : 0x${targetSampleNumber.toString(16).toUpperCase()}`);
 

@@ -43,43 +43,63 @@ const maxPossibleMarks = 150 * 6; // 900
 
 const overallPercentage = (totalMarksObtained * 100) / maxPossibleMarks;
 
-// Letter grade and 10-point scale SGPA determination
-let overallGrade;
-let gradePoints;
-
-if (overallPercentage >= 90) {
-    overallGrade = "O (Outstanding)";
-    gradePoints = 10.0;
-} else if (overallPercentage >= 80) {
-    overallGrade = "A+ (Excellent)";
-    gradePoints = 9.0;
-} else if (overallPercentage >= 70) {
-    overallGrade = "A (Very Good)";
-    gradePoints = 8.0;
-} else if (overallPercentage >= 60) {
-    overallGrade = "B+ (Good)";
-    gradePoints = 7.0;
-} else if (overallPercentage >= 50) {
-    overallGrade = "B (Above Average)";
-    gradePoints = 6.0;
-} else if (overallPercentage >= 40) {
-    overallGrade = "C (Pass)";
-    gradePoints = 5.0;
-} else {
-    overallGrade = "F (Fail)";
-    gradePoints = 0.0;
+// Helper to determine subject grade and grade points based on percentage (out of 150)
+function getSubjectGrade(totalMarks) {
+    const pct = (totalMarks * 100) / 150;
+    if (pct >= 90) return { grade: "O", points: 10.0 };
+    if (pct >= 80) return { grade: "A+", points: 9.0 };
+    if (pct >= 70) return { grade: "A", points: 8.0 };
+    if (pct >= 60) return { grade: "B+", points: 7.0 };
+    if (pct >= 50) return { grade: "B", points: 6.0 };
+    if (pct >= 40) return { grade: "C", points: 5.0 };
+    return { grade: "F", points: 0.0 };
 }
 
-// Pass/Fail criteria: Min 40% in each subject (60 out of 150)
-const minPassingMarks = 60;
-const hasPassedAllSubjects = (
-    sub1Total >= minPassingMarks &&
-    sub2Total >= minPassingMarks &&
-    sub3Total >= minPassingMarks &&
-    sub4Total >= minPassingMarks &&
-    sub5Total >= minPassingMarks &&
-    sub6Total >= minPassingMarks
-);
+const g1 = getSubjectGrade(sub1Total);
+const g2 = getSubjectGrade(sub2Total);
+const g3 = getSubjectGrade(sub3Total);
+const g4 = getSubjectGrade(sub4Total);
+const g5 = getSubjectGrade(sub5Total);
+const g6 = getSubjectGrade(sub6Total);
+
+// Passing criteria: Min 40% in Theory (40/100), Min 40% in Lab (20/50), and Min 40% in Total (60/150)
+const minTheoryPass = 40;
+const minLabPass = 20;
+const minTotalPass = 60;
+
+function checkPass(theory, lab, total) {
+    return theory >= minTheoryPass && lab >= minLabPass && total >= minTotalPass;
+}
+
+const sub1Passed = checkPass(sub1Theory, sub1Lab, sub1Total);
+const sub2Passed = checkPass(sub2Theory, sub2Lab, sub2Total);
+const sub3Passed = checkPass(sub3Theory, sub3Lab, sub3Total);
+const sub4Passed = checkPass(sub4Theory, sub4Lab, sub4Total);
+const sub5Passed = checkPass(sub5Theory, sub5Lab, sub5Total);
+const sub6Passed = checkPass(sub6Theory, sub6Lab, sub6Total);
+
+const hasPassedAllSubjects = sub1Passed && sub2Passed && sub3Passed && sub4Passed && sub5Passed && sub6Passed;
+
+// SGPA calculation as the arithmetic mean of course grade points
+const calculatedSGPA = (g1.points + g2.points + g3.points + g4.points + g5.points + g6.points) / 6;
+
+// Overall letter grade based on overall percentage
+let overallGrade;
+if (overallPercentage >= 90) {
+    overallGrade = "O (Outstanding)";
+} else if (overallPercentage >= 80) {
+    overallGrade = "A+ (Excellent)";
+} else if (overallPercentage >= 70) {
+    overallGrade = "A (Very Good)";
+} else if (overallPercentage >= 60) {
+    overallGrade = "B+ (Good)";
+} else if (overallPercentage >= 50) {
+    overallGrade = "B (Above Average)";
+} else if (overallPercentage >= 40) {
+    overallGrade = "C (Pass)";
+} else {
+    overallGrade = "F (Fail)";
+}
 
 let resultStatus;
 let divisionAwarded;
@@ -103,9 +123,9 @@ if (hasPassedAllSubjects) {
 // Dean's Honors List Qualification
 const isDeanListEligible = hasPassedAllSubjects && (overallPercentage >= 85) && (attendancePercentage >= 85);
 
-console.log("==================================================================");
-console.log("            🎓 ACADEMIC PERFORMANCE GRADE SHEET");
-console.log("==================================================================");
+console.log("========================================================================");
+console.log("                🎓 ACADEMIC PERFORMANCE GRADE SHEET");
+console.log("========================================================================");
 
 console.log(`Institution    : ${universityName}`);
 console.log(`Program        : ${academicProgram}`);
@@ -114,22 +134,22 @@ console.log(`Roll Number    : ${rollNumber}`);
 console.log(`Semester/Year  : ${currentSemester} (${academicSession})`);
 console.log(`Attendance     : ${attendancePercentage}% (Eligibility: Satisfactory)`);
 
-console.log("------------------------------------------------------------------");
-console.log("Subject Name                 Theory(100)  Lab(50)  Total(150)  Result");
-console.log("------------------------------------------------------------------");
+console.log("------------------------------------------------------------------------");
+console.log("Subject Name                 Theory(100)  Lab(50)  Total(150) Grade  Result");
+console.log("------------------------------------------------------------------------");
 
-console.log(`${sub1Name.padEnd(28)} ${sub1Theory.toString().padStart(6)}      ${sub1Lab.toString().padStart(5)}     ${sub1Total.toString().padStart(6)}      ${sub1Total >= minPassingMarks ? "PASS" : "FAIL"}`);
-console.log(`${sub2Name.padEnd(28)} ${sub2Theory.toString().padStart(6)}      ${sub2Lab.toString().padStart(5)}     ${sub2Total.toString().padStart(6)}      ${sub2Total >= minPassingMarks ? "PASS" : "FAIL"}`);
-console.log(`${sub3Name.padEnd(28)} ${sub3Theory.toString().padStart(6)}      ${sub3Lab.toString().padStart(5)}     ${sub3Total.toString().padStart(6)}      ${sub3Total >= minPassingMarks ? "PASS" : "FAIL"}`);
-console.log(`${sub4Name.padEnd(28)} ${sub4Theory.toString().padStart(6)}      ${sub4Lab.toString().padStart(5)}     ${sub4Total.toString().padStart(6)}      ${sub4Total >= minPassingMarks ? "PASS" : "FAIL"}`);
-console.log(`${sub5Name.padEnd(28)} ${sub5Theory.toString().padStart(6)}      ${sub5Lab.toString().padStart(5)}     ${sub5Total.toString().padStart(6)}      ${sub5Total >= minPassingMarks ? "PASS" : "FAIL"}`);
-console.log(`${sub6Name.padEnd(28)} ${sub6Theory.toString().padStart(6)}      ${sub6Lab.toString().padStart(5)}     ${sub6Total.toString().padStart(6)}      ${sub6Total >= minPassingMarks ? "PASS" : "FAIL"}`);
+console.log(`${sub1Name.padEnd(28)} ${sub1Theory.toString().padStart(6)}      ${sub1Lab.toString().padStart(5)}     ${sub1Total.toString().padStart(6)}     ${g1.grade.padEnd(4)}  ${sub1Passed ? "PASS" : "FAIL"}`);
+console.log(`${sub2Name.padEnd(28)} ${sub2Theory.toString().padStart(6)}      ${sub2Lab.toString().padStart(5)}     ${sub2Total.toString().padStart(6)}     ${g2.grade.padEnd(4)}  ${sub2Passed ? "PASS" : "FAIL"}`);
+console.log(`${sub3Name.padEnd(28)} ${sub3Theory.toString().padStart(6)}      ${sub3Lab.toString().padStart(5)}     ${sub3Total.toString().padStart(6)}     ${g3.grade.padEnd(4)}  ${sub3Passed ? "PASS" : "FAIL"}`);
+console.log(`${sub4Name.padEnd(28)} ${sub4Theory.toString().padStart(6)}      ${sub4Lab.toString().padStart(5)}     ${sub4Total.toString().padStart(6)}     ${g4.grade.padEnd(4)}  ${sub4Passed ? "PASS" : "FAIL"}`);
+console.log(`${sub5Name.padEnd(28)} ${sub5Theory.toString().padStart(6)}      ${sub5Lab.toString().padStart(5)}     ${sub5Total.toString().padStart(6)}     ${g5.grade.padEnd(4)}  ${sub5Passed ? "PASS" : "FAIL"}`);
+console.log(`${sub6Name.padEnd(28)} ${sub6Theory.toString().padStart(6)}      ${sub6Lab.toString().padStart(5)}     ${sub6Total.toString().padStart(6)}     ${g6.grade.padEnd(4)}  ${sub6Passed ? "PASS" : "FAIL"}`);
 
-console.log("------------------------------------------------------------------");
+console.log("------------------------------------------------------------------------");
 console.log(`Total Score    : ${totalMarksObtained} / ${maxPossibleMarks} Marks`);
 console.log(`Percentage     : ${overallPercentage.toFixed(2)}%`);
 console.log(`Grade Awarded  : ${overallGrade}`);
-console.log(`Estimated SGPA : ${gradePoints.toFixed(2)} / 10.0`);
+console.log(`Cumulative SGPA: ${calculatedSGPA.toFixed(2)} / 10.0`);
 console.log(`Division       : ${divisionAwarded}`);
 console.log(`Final Result   : ${resultStatus}`);
 
@@ -137,10 +157,10 @@ if (isDeanListEligible) {
     console.log("Honors Status  : 🏆 DEAN'S MERIT LIST HONORS HOLDER");
 }
 
-console.log("==================================================================");
-console.log("         📜 CONGRATULATIONS ON YOUR HARD WORK!");
-console.log("     Issued by Controller of Examinations, AIET");
-console.log("==================================================================");
+console.log("========================================================================");
+console.log("             📜 CONGRATULATIONS ON YOUR HARD WORK!");
+console.log("         Issued by Controller of Examinations, AIET");
+console.log("========================================================================");
 
 console.log(typeof studentName);
 console.log(typeof rollNumber);

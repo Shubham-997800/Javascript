@@ -80,14 +80,17 @@ const membershipDiscount = (grossItemsTotal * membershipDiscountPercent) / 100;
 
 // High-Value Order / Mega Sale Bonus Discount (if items total >= 50000)
 let bulkPurchaseDiscount = 0;
+let bulkDiscountTierLabel = "";
 if (grossItemsTotal >= 75000) {
     bulkPurchaseDiscount = 2000;
+    bulkDiscountTierLabel = "Orders over ₹75,000";
 } else if (grossItemsTotal >= 50000) {
     bulkPurchaseDiscount = 1000;
+    bulkDiscountTierLabel = "Orders over ₹50,000";
 }
 
 const totalDiscount = membershipDiscount + bulkPurchaseDiscount;
-const discountedProductsAmount = grossItemsTotal - totalDiscount;
+const discountedProductsAmount = Math.max(0, grossItemsTotal - totalDiscount);
 
 // Taxable subtotal (discounted products + warranty + shipping)
 const taxableSubtotal = discountedProductsAmount + warrantyCharge + shippingFee;
@@ -103,7 +106,7 @@ const netPayableBeforePromo = taxableSubtotal + totalGst;
 // Instant UPI / Festival Cashback Coupon
 const promoCouponCode = "TECHBONUS500";
 const promoDiscount = 500;
-const finalAmount = netPayableBeforePromo - promoDiscount;
+const finalAmount = Math.max(0, netPayableBeforePromo - promoDiscount);
 
 // Reward points calculation (1 point per ₹100 spent on taxable amount)
 const rewardPointsEarned = Math.floor(taxableSubtotal / 100);
@@ -152,7 +155,7 @@ console.log(`Total Items Qty : ${totalQuantity} Units`);
 console.log(`Gross Subtotal  : ₹${grossItemsTotal.toFixed(2)}`);
 console.log(`Tier Discount   : -₹${membershipDiscount.toFixed(2)} (${customerCategory} ${membershipDiscountPercent}%)`);
 if (bulkPurchaseDiscount > 0) {
-    console.log(`Mega Cart Bonus : -₹${bulkPurchaseDiscount.toFixed(2)} (Orders over ₹75k)`);
+    console.log(`Mega Cart Bonus : -₹${bulkPurchaseDiscount.toFixed(2)} (${bulkDiscountTierLabel})`);
 }
 if (includeExtendedWarranty) {
     console.log(`Extended Care   : ₹${warrantyCharge.toFixed(2)} (2-Year Protection Plan)`);
