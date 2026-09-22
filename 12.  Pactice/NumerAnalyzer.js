@@ -75,12 +75,14 @@ for (let n = rangeStart; n <= rangeEnd; n++) {
 
 const totalCount = (rangeEnd - rangeStart) + 1;
 const averageMean = totalSum / totalCount;
+const rangeMedian = (rangeStart + rangeEnd) / 2;
 
 console.log("📊 RANGE SUMMARY METRICS");
 console.log("----------------------------------------------------------");
 console.log(`Total Numbers   : ${totalCount}`);
 console.log(`Total Sum       : ${totalSum}`);
 console.log(`Arithmetic Mean : ${averageMean.toFixed(2)}`);
+console.log(`Range Median    : ${rangeMedian.toFixed(2)}`);
 console.log(`Even Numbers    : ${evenCount} (Sum: ${evenSum})`);
 console.log(`Odd Numbers     : ${oddCount} (Sum: ${oddSum})`);
 console.log(`Multiples (3 & 5): ${fizzBuzzCount} numbers (FizzBuzz)`);
@@ -116,6 +118,27 @@ for (let p = 2; p * p <= targetSampleNumber; p++) {
     }
 }
 
+// Prime Factorization
+let primeFactors = [];
+let numForFactors = targetSampleNumber;
+for (let div = 2; div * div <= numForFactors; div++) {
+    while (numForFactors % div === 0) {
+        primeFactors.push(div);
+        numForFactors = Math.floor(numForFactors / div);
+    }
+}
+if (numForFactors > 1) {
+    primeFactors.push(numForFactors);
+}
+
+// Fibonacci membership check
+function isSquare(val) {
+    const s = Math.round(Math.sqrt(val));
+    return s * s === val;
+}
+const isFibonacci = isSquare(5 * targetSampleNumber * targetSampleNumber + 4) ||
+                    isSquare(5 * targetSampleNumber * targetSampleNumber - 4);
+
 // Digit count, digit array, and digit sum
 let temp = targetSampleNumber;
 let sumOfDigits = 0;
@@ -138,9 +161,11 @@ const isArmstrongNumber = (armstrongSum === targetSampleNumber);
 
 console.log(`Parity Type     : ${targetSampleNumber % 2 === 0 ? "Even Number" : "Odd Number"}`);
 console.log(`Is Prime?       : ${isTargetPrime ? "YES (Prime)" : "NO (Composite)"}`);
+console.log(`Prime Factors   : ${primeFactors.join(" × ")}`);
 console.log(`Proper Divisors : ${factors.join(", ")}`);
 console.log(`Sum of Divisors : ${factorSum}`);
 console.log(`Is Perfect No.? : ${isPerfectNumber ? "YES (Rare Perfect Number!)" : "NO"}`);
+console.log(`Is Fibonacci?   : ${isFibonacci ? "YES (Belongs to Fibonacci)" : "NO"}`);
 console.log(`Digits Count    : ${digitCount} digits [${digits.join(", ")}]`);
 console.log(`Sum of Digits   : ${sumOfDigits}`);
 console.log(`Is Palindrome?  : ${isPalindrome ? "YES" : "NO"}`);
@@ -154,9 +179,10 @@ console.log(`Hexadecimal     : 0x${targetSampleNumber.toString(16).toUpperCase()
 console.log("==========================================================");
 console.log("        💡 MATHEMATICAL ANALYSIS COMPLETE!");
 console.log("==========================================================");
-
-console.log(typeof analystName);
-console.log(typeof totalSum);
-console.log(typeof primeCount);
-console.log(typeof isPerfectNumber);
-console.log(typeof averageMean);
+console.log("             🔍 DATA TYPE AUDIT INSPECTION");
+console.log("----------------------------------------------------------");
+console.log(`analystName     : ${typeof analystName} ("${analystName}")`);
+console.log(`totalSum        : ${typeof totalSum} (${totalSum})`);
+console.log(`primeCount      : ${typeof primeCount} (${primeCount})`);
+console.log(`isPerfectNumber : ${typeof isPerfectNumber} (${isPerfectNumber})`);
+console.log(`averageMean     : ${typeof averageMean} (${averageMean.toFixed(2)})`);

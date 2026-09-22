@@ -135,12 +135,20 @@ const totalGst = cgstAmount + sgstAmount;
 
 const grossFare = rideTaxableSubtotal + totalGst;
 
-// Coupon / Promo code discount & optional driver tip
+// Average speed analysis
+const averageSpeedKmph = (distanceKm / (rideDurationMinutes / 60)).toFixed(1);
+
+// Coupon / Promo code discount, green donation & driver tip
 const promoCouponCode = "MEGA50";
 const couponDiscount = 60;
 const driverTip = 30;
+const greenFleetTreePlanting = 10; // Voluntary green tree-planting contribution
 
-const finalAmount = Math.max(0, grossFare - couponDiscount) + driverTip;
+const finalAmount = Math.max(0, grossFare - couponDiscount) + driverTip + greenFleetTreePlanting;
+
+// Driver earnings estimation (after 20% platform commission + 100% tip)
+const platformCommission = grossFare * 0.20;
+const driverNetEarnings = (grossFare - platformCommission) + driverTip;
 
 const paymentMethod = "UPI / PhonePe";
 const rideStatus = "Completed";
@@ -159,7 +167,7 @@ console.log(`Cab Category   : ${cabType}`);
 console.log("----------------------------------------");
 console.log(`Pickup Point   : ${pickupLocation}`);
 console.log(`Drop Point     : ${dropLocation}`);
-console.log(`Total Distance : ${distanceKm} km`);
+console.log(`Total Distance : ${distanceKm} km (Avg: ${averageSpeedKmph} km/h)`);
 console.log(`Duration       : ${rideDurationMinutes} mins`);
 console.log(`Wait Time      : ${waitingTimeMinutes} mins (${billableWaitMinutes} mins billable)`);
 console.log(`En-route Stops : ${numberOfStops} Stop(s)`);
@@ -192,23 +200,26 @@ console.log(`SGST (2.5%)     : ₹${sgstAmount.toFixed(2)}`);
 console.log(`Total GST (5%)  : ₹${totalGst.toFixed(2)}`);
 console.log(`Gross Total     : ₹${grossFare.toFixed(2)}`);
 console.log(`Coupon Discount : -₹${couponDiscount.toFixed(2)} (${promoCouponCode})`);
+console.log(`Green Fleet Addon: ₹${greenFleetTreePlanting.toFixed(2)} (Tree Plantation)`);
 console.log(`Driver Tip      : ₹${driverTip.toFixed(2)}`);
 console.log(`FINAL PAYABLE   : ₹${finalAmount.toFixed(2)}`);
 
 console.log("----------------------------------------");
 console.log(`Payment Mode    : ${paymentMethod}`);
 console.log(`Ride Status     : ${rideStatus}`);
+console.log(`Driver Payout   : ₹${driverNetEarnings.toFixed(2)} (Net after commission)`);
 
 console.log("========================================");
 console.log("   ⭐ THANK YOU FOR RIDING WITH US!");
 console.log("        Drive Safely, Arrive Happy!");
 console.log("========================================");
-
-console.log(typeof customerName);
-console.log(typeof bookingId);
-console.log(typeof driverName);
-console.log(typeof cabType);
-console.log(typeof distanceKm);
-console.log(typeof isNightRide);
-console.log(typeof finalAmount);
-console.log(typeof rideStatus);
+console.log("             🔍 DATA TYPE AUDIT INSPECTION");
+console.log("----------------------------------------");
+console.log(`customerName   : ${typeof customerName} ("${customerName}")`);
+console.log(`bookingId      : ${typeof bookingId} ("${bookingId}")`);
+console.log(`driverName     : ${typeof driverName} ("${driverName}")`);
+console.log(`cabType        : ${typeof cabType} ("${cabType}")`);
+console.log(`distanceKm     : ${typeof distanceKm} (${distanceKm} km)`);
+console.log(`isNightRide    : ${typeof isNightRide} (${isNightRide})`);
+console.log(`finalAmount    : ${typeof finalAmount} (₹${finalAmount.toFixed(2)})`);
+console.log(`rideStatus     : ${typeof rideStatus} ("${rideStatus}")`);

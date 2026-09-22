@@ -123,6 +123,26 @@ if (hasPassedAllSubjects) {
 // Dean's Honors List Qualification
 const isDeanListEligible = hasPassedAllSubjects && (overallPercentage >= 85) && (attendancePercentage >= 85);
 
+// Course analytics: Highest & Lowest scoring subjects
+const subjects = [
+    { name: sub1Name, total: sub1Total },
+    { name: sub2Name, total: sub2Total },
+    { name: sub3Name, total: sub3Total },
+    { name: sub4Name, total: sub4Total },
+    { name: sub5Name, total: sub5Total },
+    { name: sub6Name, total: sub6Total }
+];
+
+let highestSubject = subjects[0];
+let lowestSubject = subjects[0];
+for (const sub of subjects) {
+    if (sub.total > highestSubject.total) highestSubject = sub;
+    if (sub.total < lowestSubject.total) lowestSubject = sub;
+}
+
+// AICTE/CBSE standard formula for SGPA to percentage equivalent
+const sgpaEquivalentPercentage = (calculatedSGPA * 9.5).toFixed(2);
+
 console.log("========================================================================");
 console.log("                🎓 ACADEMIC PERFORMANCE GRADE SHEET");
 console.log("========================================================================");
@@ -149,8 +169,10 @@ console.log("-------------------------------------------------------------------
 console.log(`Total Score    : ${totalMarksObtained} / ${maxPossibleMarks} Marks`);
 console.log(`Percentage     : ${overallPercentage.toFixed(2)}%`);
 console.log(`Grade Awarded  : ${overallGrade}`);
-console.log(`Cumulative SGPA: ${calculatedSGPA.toFixed(2)} / 10.0`);
+console.log(`Cumulative SGPA: ${calculatedSGPA.toFixed(2)} / 10.0 (Equiv: ~${sgpaEquivalentPercentage}%)`);
 console.log(`Division       : ${divisionAwarded}`);
+console.log(`Top Subject    : ${highestSubject.name} (${highestSubject.total}/150)`);
+console.log(`Lowest Subject : ${lowestSubject.name} (${lowestSubject.total}/150)`);
 console.log(`Final Result   : ${resultStatus}`);
 
 if (isDeanListEligible) {
@@ -161,10 +183,11 @@ console.log("===================================================================
 console.log("             📜 CONGRATULATIONS ON YOUR HARD WORK!");
 console.log("         Issued by Controller of Examinations, AIET");
 console.log("========================================================================");
-
-console.log(typeof studentName);
-console.log(typeof rollNumber);
-console.log(typeof totalMarksObtained);
-console.log(typeof overallPercentage);
-console.log(typeof isDeanListEligible);
-console.log(typeof resultStatus);
+console.log("             🔍 DATA TYPE AUDIT INSPECTION");
+console.log("------------------------------------------------------------------------");
+console.log(`studentName        : ${typeof studentName} ("${studentName}")`);
+console.log(`rollNumber         : ${typeof rollNumber} ("${rollNumber}")`);
+console.log(`totalMarksObtained : ${typeof totalMarksObtained} (${totalMarksObtained})`);
+console.log(`overallPercentage  : ${typeof overallPercentage} (${overallPercentage.toFixed(2)}%)`);
+console.log(`isDeanListEligible : ${typeof isDeanListEligible} (${isDeanListEligible})`);
+console.log(`resultStatus       : ${typeof resultStatus} ("${resultStatus}")`);

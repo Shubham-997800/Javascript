@@ -14,11 +14,14 @@ const sanctionedLoadKw = 5; // Sanctioned load in kW
 const previousReading = 14220;
 const currentReading = 14605;
 const totalUnitsConsumed = currentReading - previousReading; // 385 units
+const dailyAverageUnits = (totalUnitsConsumed / 30).toFixed(1);
 
-// Solar Rooftop Net-Metering
+// Solar Rooftop Net-Metering & Green Sustainability Metrics
 const hasSolarNetMetering = true;
 const solarUnitsExported = 65; // Solar power generated & exported to grid
 const netBilledUnits = hasSolarNetMetering ? Math.max(0, totalUnitsConsumed - solarUnitsExported) : totalUnitsConsumed;
+const co2SavedKg = (solarUnitsExported * 0.82).toFixed(1); // 0.82 kg CO2 per kWh grid baseline
+const treePlantEquivalent = Math.max(1, Math.round(solarUnitsExported * 0.04));
 
 // Tariff determination based on Connection Type
 let fixedRatePerKw;
@@ -138,7 +141,7 @@ console.log(`Category / Load: ${connectionType} (${sanctionedLoadKw} kW Sanction
 console.log("--------------------------------------------------");
 console.log(`Previous Meter : ${previousReading} kWh`);
 console.log(`Current Meter  : ${currentReading} kWh`);
-console.log(`Gross Consumed : ${totalUnitsConsumed} kWh`);
+console.log(`Gross Consumed : ${totalUnitsConsumed} kWh (Avg: ~${dailyAverageUnits} kWh/day)`);
 if (hasSolarNetMetering) {
     console.log(`Solar Exported : -${solarUnitsExported} kWh (Net Metering Active)`);
     console.log(`Net Billed Qty : ${netBilledUnits} kWh`);
@@ -172,15 +175,24 @@ console.log("--------------------------------------------------");
 console.log(`Payment Method : ${paymentMethod}`);
 console.log(`Payment Status : ${billStatus}`);
 
+if (hasSolarNetMetering) {
+    console.log("--------------------------------------------------");
+    console.log("           🌱 GREEN SUSTAINABILITY IMPACT");
+    console.log("--------------------------------------------------");
+    console.log(`Solar Exported : ${solarUnitsExported} kWh green energy`);
+    console.log(`CO2 Emissions  : ~${co2SavedKg} kg CO2 avoided`);
+    console.log(`Forest Impact  : Equivalent to planting ~${treePlantEquivalent} mature trees`);
+}
+
 console.log("==================================================");
 console.log("     💡 SAVE ELECTRICITY - POWER THE NATION!");
-console.log("      🌱 Solar Power Reduces Carbon Footprint");
 console.log("==================================================");
-
-console.log(typeof customerName);
-console.log(typeof consumerNumber);
-console.log(typeof connectionType);
-console.log(typeof totalUnitsConsumed);
-console.log(typeof hasSolarNetMetering);
-console.log(typeof finalPayable);
-console.log(typeof billStatus);
+console.log("             🔍 DATA TYPE AUDIT CHECK");
+console.log("--------------------------------------------------");
+console.log(`customerName       : ${typeof customerName} ("${customerName}")`);
+console.log(`consumerNumber     : ${typeof consumerNumber} ("${consumerNumber}")`);
+console.log(`connectionType     : ${typeof connectionType} ("${connectionType}")`);
+console.log(`totalUnitsConsumed : ${typeof totalUnitsConsumed} (${totalUnitsConsumed} kWh)`);
+console.log(`hasSolarNetMetering: ${typeof hasSolarNetMetering} (${hasSolarNetMetering})`);
+console.log(`finalPayable       : ${typeof finalPayable} (₹${finalPayable.toFixed(2)})`);
+console.log(`billStatus         : ${typeof billStatus} ("${billStatus}")`);
