@@ -1,13 +1,10 @@
 const patientName = "Shubham";
 const patientId = "MED-2026-9154";
-const hospitalName = "Apollo Multi-Specialty Hospital & Research Centre";
+const hospitalName = "Apollo Multi-Specialty Hospital";
 const wardCategory = "Deluxe ICU"; // General Ward, Semi-Private, Deluxe Room, ICU, Deluxe ICU
-const bedNumber = "ICU-Bed-04 (Cardiac Critical Care Unit)";
-const admissionDate = "16-Sep-2026 (08:30 AM)";
-const dischargeDate = "20-Sep-2026 (04:15 PM)";
 const daysAdmitted = 4;
-const attendingPhysician = "Dr. Rajesh Sharma (MD, DM Cardiology)";
-const department = "Cardiology & Interventional Care";
+const attendingPhysician = "Dr. Rajesh Sharma (MD, Cardiology)";
+const department = "Cardiology";
 
 let roomTariffPerDay;
 let nursingCarePerDay;
@@ -47,96 +44,87 @@ const specialistVisits = 3;
 const specialistFeePerVisit = 2200;
 const totalSpecialistFees = specialistVisits * specialistFeePerVisit;
 
-// Medical investigations, radiology & lab charges
+// Medical investigations & pharmacy
 const labInvestigationFees = 5400;
-const radiologyScanFees = 7800; // 2D Echo & CT Angiography
+const radiologyScanFees = 7800;
 const pharmacyMedicineBill = 12400;
 const surgicalConsumables = 3800;
 
-// Emergency ambulance & hospital administrative facility fees
-const ambulanceCharges = 1500; // Emergency ALS Ambulance with paramedic
+// Hospital administrative fees
 const admissionRegistrationFee = 1200;
 const sanitizationEquipmentFee = 1000;
 
 // Total hospital gross charges
 const grossMedicalCharges = totalRoomCharges + totalNursingCharges + physicianVisitFee +
     totalSpecialistFees + labInvestigationFees + radiologyScanFees +
-    pharmacyMedicineBill + surgicalConsumables + ambulanceCharges +
-    admissionRegistrationFee + sanitizationEquipmentFee;
+    pharmacyMedicineBill + surgicalConsumables + admissionRegistrationFee +
+    sanitizationEquipmentFee;
 
-// Health Insurance / Mediclaim processing (Cashless TPA)
+// Health Insurance processing
 const hasInsurance = true;
 const insuranceProvider = "Star Health & Allied Insurance";
 const policyNumber = "STAR-2026-HL-7731";
-const tpaClaimRef = "TPA-APOLLO-992014";
-const coveragePercentage = 80; // 80% covered by insurance
-const fixedDeductible = 4000; // Mandatory policy deductible
+const coveragePercentage = 80;
+const fixedDeductible = 4000;
 
 let insuranceApprovedAmount = 0;
 let patientShare = 0;
 
 if (hasInsurance) {
-    const claimableAmount = Math.max(0, grossMedicalCharges - fixedDeductible);
+    const claimableAmount = grossMedicalCharges - fixedDeductible;
     insuranceApprovedAmount = (claimableAmount * coveragePercentage) / 100;
-    patientShare = Math.max(0, grossMedicalCharges - insuranceApprovedAmount);
+    patientShare = grossMedicalCharges - insuranceApprovedAmount;
 } else {
     patientShare = grossMedicalCharges;
 }
 
-// Corporate / Hospital Goodwill Discount
 const corporateDiscount = 1500;
-const netPatientPayable = Math.max(0, patientShare - corporateDiscount);
+const netPatientPayable = patientShare - corporateDiscount;
 
-const paymentMethod = "TPA Cashless Settlement + UPI";
-const dischargeStatus = "Fit for Discharge (Stable - Follow-up in 10 Days)";
+const paymentMethod = "TPA Cashless + UPI";
+const dischargeStatus = "Fit for Discharge (Stable)";
 
-console.log("==================================================");
-console.log("          🏥 HOSPITAL DISCHARGE BILLING");
-console.log("==================================================");
+console.log("========================================");
+console.log("     🏥 HOSPITAL DISCHARGE BILLING");
+console.log("========================================");
 
 console.log(`Patient ID     : ${patientId}`);
 console.log(`Patient Name   : ${patientName}`);
 console.log(`Hospital       : ${hospitalName}`);
 console.log(`Department     : ${department}`);
 console.log(`Primary Doctor : ${attendingPhysician}`);
-console.log(`Ward / Bed     : ${wardCategory} [${bedNumber}]`);
-console.log(`Admitted On    : ${admissionDate}`);
-console.log(`Discharged On  : ${dischargeDate}`);
+console.log(`Ward Category  : ${wardCategory}`);
 console.log(`Stay Duration  : ${daysAdmitted} Days`);
 
-console.log("--------------------------------------------------");
-console.log(`Room Rent      : ₹${roomTariffPerDay.toFixed(2)} × ${daysAdmitted} = ₹${totalRoomCharges.toFixed(2)}`);
-console.log(`Nursing Care   : ₹${nursingCarePerDay.toFixed(2)} × ${daysAdmitted} = ₹${totalNursingCharges.toFixed(2)}`);
-console.log(`Physician Fees : ₹${physicianVisitFee.toFixed(2)} (Daily Round Checks)`);
-console.log(`Specialist Cons: ₹${totalSpecialistFees.toFixed(2)} (${specialistVisits} visits @ ₹${specialistFeePerVisit.toFixed(2)})`);
-console.log(`Laboratory     : ₹${labInvestigationFees.toFixed(2)} (Blood Panel & Pathology)`);
-console.log(`Radiology/Scan : ₹${radiologyScanFees.toFixed(2)} (2D Echo & CT Angiography)`);
-console.log(`Pharmacy Bill  : ₹${pharmacyMedicineBill.toFixed(2)} (Prescription Medications)`);
-console.log(`Consumables    : ₹${surgicalConsumables.toFixed(2)} (Sterile Kits & PPE)`);
-console.log(`Emergency ALS  : ₹${ambulanceCharges.toFixed(2)} (Paramedic Ambulance Transit)`);
-console.log(`Admin/Sanitize : ₹${(admissionRegistrationFee + sanitizationEquipmentFee).toFixed(2)}`);
+console.log("----------------------------------------");
+console.log(`Room Rent      : ₹${roomTariffPerDay} × ${daysAdmitted} = ₹${totalRoomCharges}`);
+console.log(`Nursing Care   : ₹${nursingCarePerDay} × ${daysAdmitted} = ₹${totalNursingCharges}`);
+console.log(`Physician Fees : ₹${physicianVisitFee}`);
+console.log(`Specialist Cons: ₹${totalSpecialistFees} (${specialistVisits} visits)`);
+console.log(`Laboratory     : ₹${labInvestigationFees}`);
+console.log(`Radiology/Scan : ₹${radiologyScanFees}`);
+console.log(`Pharmacy Bill  : ₹${pharmacyMedicineBill}`);
+console.log(`Consumables    : ₹${surgicalConsumables}`);
+console.log(`Admission/Admin: ₹${admissionRegistrationFee + sanitizationEquipmentFee}`);
 
-console.log("--------------------------------------------------");
+console.log("----------------------------------------");
 console.log(`Gross Charges  : ₹${grossMedicalCharges.toFixed(2)}`);
 if (hasInsurance) {
     console.log(`Insurance TPA  : ${insuranceProvider}`);
-    console.log(`Policy Number  : ${policyNumber}`);
-    console.log(`Claim Ref No.  : ${tpaClaimRef}`);
-    console.log(`Policy Co-pay  : ₹${fixedDeductible.toFixed(2)} Deductible`);
-    console.log(`TPA Approved   : -₹${insuranceApprovedAmount.toFixed(2)} (${coveragePercentage}% Settled by Insurer)`);
+    console.log(`Policy No      : ${policyNumber}`);
+    console.log(`TPA Approved   : -₹${insuranceApprovedAmount.toFixed(2)} (${coveragePercentage}%)`);
     console.log(`Patient Share  : ₹${patientShare.toFixed(2)}`);
 }
-console.log(`Hospital Rebate: -₹${corporateDiscount.toFixed(2)} (Empanelled Corporate Benefit)`);
-console.log(`FINAL PAYABLE  : ₹${netPatientPayable.toFixed(2)}`);
+console.log(`Hospital Rebate: -₹${corporateDiscount.toFixed(2)}`);
+console.log(`Net Payable    : ₹${netPatientPayable.toFixed(2)}`);
 
-console.log("--------------------------------------------------");
+console.log("----------------------------------------");
 console.log(`Payment Mode   : ${paymentMethod}`);
 console.log(`Patient Status : ${dischargeStatus}`);
 
-console.log("==================================================");
-console.log("       ❤️ WISHING YOU A SPEEDY RECOVERY!");
-console.log("     Emergency 24x7 Helpline: 1800-419-4444");
-console.log("==================================================");
+console.log("========================================");
+console.log("      ❤️ WISHING YOU A SPEEDY RECOVERY!");
+console.log("========================================");
 
 console.log(typeof patientName);
 console.log(typeof patientId);

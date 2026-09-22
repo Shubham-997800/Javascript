@@ -1,17 +1,13 @@
 const passengerName = "Shubham";
 const bookingReference = "PNR-2026-9482";
 const airlineName = "SkyWings Airlines";
-const flightNumber = "SW-742 (Boeing 787-9 Dreamliner)";
-const sourceAirport = "Mumbai (BOM) - T2";
-const destinationAirport = "New Delhi (DEL) - T3";
-const departureTime = "23-Sep-2026 07:30 AM";
-const arrivalTime = "23-Sep-2026 09:45 AM";
-const flightDuration = "2h 15m (Non-Stop)";
+const flightNumber = "SW-742";
+const sourceAirport = "Mumbai (BOM)";
+const destinationAirport = "New Delhi (DEL)";
 const travelClass = "Business"; // Economy, Premium Economy, Business, First Class
 const tripType = "Round Trip"; // One Way, Round Trip
 const numberOfPassengers = 2;
-const allocatedSeats = "2A, 2B";
-const baggageWeightPerPaxKg = 32; // Actual weight per passenger
+const baggageWeightKg = 32;
 
 let baseFarePerPax;
 let baggageAllowanceKg;
@@ -38,21 +34,21 @@ switch (travelClass) {
         baggageAllowanceKg = 15;
 }
 
-// Trip multiplier (Round trip gets a 10% round-trip rebate on the return leg base fare)
+// Trip multiplier (Round trip gets a 10% discount on base fare)
 let tripMultiplier = 1;
 if (tripType === "Round Trip") {
-    tripMultiplier = 1.9; // 2 legs with 10% return leg rebate
+    tripMultiplier = 1.9;
 }
 
 const totalBaseFare = baseFarePerPax * numberOfPassengers * tripMultiplier;
 
-// Extra baggage calculation per passenger
-let extraBaggagePerPaxKg = 0;
-if (baggageWeightPerPaxKg > baggageAllowanceKg) {
-    extraBaggagePerPaxKg = baggageWeightPerPaxKg - baggageAllowanceKg;
+// Extra baggage calculation
+let extraBaggageKg = 0;
+if (baggageWeightKg > baggageAllowanceKg) {
+    extraBaggageKg = baggageWeightKg - baggageAllowanceKg;
 }
 const extraBaggageRatePerKg = 450;
-const totalBaggageFee = extraBaggagePerPaxKg * extraBaggageRatePerKg * numberOfPassengers;
+const totalBaggageFee = extraBaggageKg * extraBaggageRatePerKg * numberOfPassengers;
 
 // Preferred seat selection
 const seatPreference = "Extra Legroom"; // Standard, Window, Aisle, Extra Legroom
@@ -87,17 +83,17 @@ switch (mealChoice) {
 }
 const totalMealCharge = mealChargePerPax * numberOfPassengers;
 
-// Add-on services: Comprehensive Travel Insurance & Airport VIP Lounge Access
+// Add-on services: Travel Insurance & Lounge
 const includeInsurance = true;
 const insuranceCharge = includeInsurance ? 499 * numberOfPassengers : 0;
 
 const includeLoungeAccess = true;
 const loungeCharge = includeLoungeAccess ? 1200 * numberOfPassengers : 0;
 
-// Subtotal of airfare and selected add-ons
+// Subtotal
 const flightSubtotal = totalBaseFare + totalBaggageFee + totalSeatFee + totalMealCharge + insuranceCharge + loungeCharge;
 
-// Mandatory Airport & Aviation Taxes
+// Airport Taxes
 const userDevelopmentFee = 650 * numberOfPassengers;
 const aviationSecurityFee = 250 * numberOfPassengers;
 const passengerServiceFee = 350 * numberOfPassengers;
@@ -105,82 +101,71 @@ const totalAirportFees = userDevelopmentFee + aviationSecurityFee + passengerSer
 
 const taxableSubtotal = flightSubtotal + totalAirportFees;
 
-// GST calculation: 5% on Economy (2.5% CGST + 2.5% SGST), 12% on Premium/Business/First Class (6% CGST + 6% SGST)
+// GST calculation
 let gstRate = 5;
 if (travelClass === "Business" || travelClass === "First Class" || travelClass === "Premium Economy") {
     gstRate = 12;
 }
-const cgstRate = gstRate / 2;
-const sgstRate = gstRate / 2;
-const cgstAmount = (taxableSubtotal * cgstRate) / 100;
-const sgstAmount = (taxableSubtotal * sgstRate) / 100;
-const totalGst = cgstAmount + sgstAmount;
+const gstAmount = (taxableSubtotal * gstRate) / 100;
 
-const totalAmount = taxableSubtotal + totalGst;
+const totalAmount = taxableSubtotal + gstAmount;
 
-// Promotional / Frequent Flyer Coupon Discount
 const promoCoupon = "FLYHIGH2026";
 const promoDiscount = 1200;
-const finalAirfare = Math.max(0, totalAmount - promoDiscount);
+const finalAirfare = totalAmount - promoDiscount;
 
-const paymentMethod = "UPI / NetBanking";
+const paymentMethod = "UPI";
 const bookingStatus = "Confirmed - E-Ticket Issued";
 const boardingGate = "Gate 12B";
 const boardingTime = "06:45 AM";
 
-console.log("==================================================");
-console.log("             ✈️ FLIGHT E-TICKET INVOICE");
-console.log("==================================================");
+console.log("========================================");
+console.log("      ✈️ FLIGHT BOARDING INVOICE");
+console.log("========================================");
 
 console.log(`Booking PNR    : ${bookingReference}`);
-console.log(`Primary Pax    : ${passengerName}`);
-console.log(`Airline & Craft: ${airlineName} [${flightNumber}]`);
-console.log(`Route          : ${sourceAirport} ➔ ${destinationAirport}`);
-console.log(`Departure      : ${departureTime}`);
-console.log(`Arrival        : ${arrivalTime} (${flightDuration})`);
+console.log(`Passenger Name : ${passengerName}`);
+console.log(`Airlines       : ${airlineName} (${flightNumber})`);
+console.log(`Route          : ${sourceAirport} -> ${destinationAirport}`);
 console.log(`Cabin Class    : ${travelClass}`);
 console.log(`Trip Itinerary : ${tripType}`);
-console.log(`Seat(s)        : ${allocatedSeats} (${numberOfPassengers} Pax)`);
+console.log(`Passenger(s)   : ${numberOfPassengers} Person(s)`);
 
-console.log("--------------------------------------------------");
-console.log(`Base Airfare   : ₹${baseFarePerPax.toFixed(2)} × ${numberOfPassengers} (x${tripMultiplier}) = ₹${totalBaseFare.toFixed(2)}`);
-if (extraBaggagePerPaxKg > 0) {
-    console.log(`Excess Luggage : ${extraBaggagePerPaxKg} kg/pax extra × ₹${extraBaggageRatePerKg} = ₹${totalBaggageFee.toFixed(2)}`);
+console.log("----------------------------------------");
+console.log(`Base Airfare   : ₹${baseFarePerPax} × ${numberOfPassengers} (x${tripMultiplier}) = ₹${totalBaseFare.toFixed(2)}`);
+if (extraBaggageKg > 0) {
+    console.log(`Excess Luggage : ${extraBaggageKg} kg extra × ₹${extraBaggageRatePerKg} = ₹${totalBaggageFee.toFixed(2)}`);
 }
 if (totalSeatFee > 0) {
-    console.log(`Seat Selection : ₹${totalSeatFee.toFixed(2)} (${seatPreference} for ${numberOfPassengers} pax)`);
+    console.log(`Seat Selection : ${seatPreference} = ₹${totalSeatFee.toFixed(2)}`);
 }
 if (totalMealCharge > 0) {
-    console.log(`Inflight Meals : ₹${totalMealCharge.toFixed(2)} (${mealChoice} for ${numberOfPassengers} pax)`);
+    console.log(`Meal Plan      : ${mealChoice} = ₹${totalMealCharge.toFixed(2)}`);
 }
 if (includeInsurance) {
-    console.log(`Travel Insure  : ₹${insuranceCharge.toFixed(2)} (Comprehensive Multi-Risk Policy)`);
+    console.log(`Travel Insure  : ₹${insuranceCharge.toFixed(2)}`);
 }
 if (includeLoungeAccess) {
-    console.log(`Lounge Access  : ₹${loungeCharge.toFixed(2)} (Airport Executive Lounge Access)`);
+    console.log(`Lounge Access  : ₹${loungeCharge.toFixed(2)}`);
 }
 
-console.log("--------------------------------------------------");
+console.log("----------------------------------------");
 console.log(`Flight Subtotal: ₹${flightSubtotal.toFixed(2)}`);
-console.log(`Airport Taxes  : ₹${totalAirportFees.toFixed(2)} (UDF + ASF + PSF)`);
+console.log(`Airport & ASF  : ₹${totalAirportFees.toFixed(2)}`);
 console.log(`Taxable Amount : ₹${taxableSubtotal.toFixed(2)}`);
-console.log(`CGST (${cgstRate.toFixed(1)}%)     : ₹${cgstAmount.toFixed(2)}`);
-console.log(`SGST (${sgstRate.toFixed(1)}%)     : ₹${sgstAmount.toFixed(2)}`);
-console.log(`Total GST      : ₹${totalGst.toFixed(2)} (${gstRate}%)`);
-console.log(`Gross Total    : ₹${totalAmount.toFixed(2)}`);
+console.log(`GST (${gstRate}%)       : ₹${gstAmount.toFixed(2)}`);
 console.log(`Promo Coupon   : -₹${promoDiscount.toFixed(2)} (${promoCoupon})`);
-console.log(`FINAL PAYABLE  : ₹${finalAirfare.toFixed(2)}`);
+console.log(`Final Payable  : ₹${finalAirfare.toFixed(2)}`);
 
-console.log("--------------------------------------------------");
+console.log("----------------------------------------");
 console.log(`Payment Mode   : ${paymentMethod}`);
 console.log(`Booking Status : ${bookingStatus}`);
 console.log(`Boarding Gate  : ${boardingGate}`);
 console.log(`Boarding Time  : ${boardingTime}`);
 
-console.log("==================================================");
-console.log("         🛫 HAVE A SAFE AND HAPPY FLIGHT!");
-console.log("      Web check-in closes 60 mins before departure");
-console.log("==================================================");
+console.log("========================================");
+console.log("      🛫 HAVE A SAFE AND HAPPY FLIGHT!");
+console.log("========================================");
 
 console.log(typeof passengerName);
 console.log(typeof bookingReference);
