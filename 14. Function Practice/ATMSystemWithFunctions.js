@@ -1,14 +1,12 @@
-// ==========================================
-// 🏧 ATM SYSTEM USING FUNCTIONS
-// ==========================================
+// ATM System using Functions
 
-// Global / Account State
+// Account State
 let accountHolder = "Shubham";
 let accountNumber = "SBI-889922";
 let balance = 15000;
 let transactionHistory = [];
 
-// Helper Function: Add transaction record
+// Helper: record transaction
 function recordTransaction(type, amount, currentBal) {
     transactionHistory.push({
         type: type,
@@ -18,13 +16,13 @@ function recordTransaction(type, amount, currentBal) {
     });
 }
 
-// Function 1: Check Current Balance
+// 1. Check Balance
 const checkBalance = () => {
     console.log(`ℹ️ [BALANCE] Current Balance: ₹${balance}`);
     return balance;
 };
 
-// Function 2: Deposit Money
+// 2. Deposit Money
 function deposit(amount) {
     if (amount <= 0) {
         console.log("❌ [ERROR] Deposit amount must be greater than 0!");
@@ -37,7 +35,7 @@ function deposit(amount) {
     return true;
 }
 
-// Function 3: Withdraw Money
+// 3. Withdraw Money
 function withdraw(amount) {
     if (amount <= 0) {
         console.log("❌ [ERROR] Invalid withdrawal amount!");
@@ -55,7 +53,7 @@ function withdraw(amount) {
     return true;
 }
 
-// Function 4: Mini Statement / Receipt
+// 4. Mini Statement
 function printMiniStatement() {
     console.log("\n========================================");
     console.log("         🏧 ATM MINI STATEMENT");
@@ -79,28 +77,14 @@ function printMiniStatement() {
     console.log("========================================\n");
 }
 
-// ------------------------------------------
-// 🚀 Performing Operations Using Functions
-// ------------------------------------------
-
+// Demo Operations
 console.log("========================================");
 console.log("       WELCOME TO SBI ATM SYSTEM");
 console.log("========================================\n");
 
-// Check initial balance
 checkBalance();
-
-// Perform deposit
 deposit(5000);
-
-// Perform valid withdrawal
 withdraw(3000);
-
-// Perform invalid withdrawal (insufficient balance check)
 withdraw(25000);
-
-// Perform another deposit
 deposit(1200);
-
-// Print Final Statement
 printMiniStatement();

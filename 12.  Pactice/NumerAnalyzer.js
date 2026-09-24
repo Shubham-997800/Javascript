@@ -1,4 +1,4 @@
-// Number Analyzer - Practice Program
+// Number Analyzer
 
 let start = 1;
 let end = 50;
@@ -11,7 +11,7 @@ console.log("========================================");
 console.log("          🔢 NUMBER ANALYZER");
 console.log("========================================");
 
-// 1 se 50 tak Even, Odd aur Sum nikalna
+// Even, Odd & Sum (1 to 50)
 for (let i = start; i <= end; i++) {
     totalSum += i;
 
@@ -50,7 +50,7 @@ console.log(`Divisible by 3     : ${divBy3}`);
 console.log(`Divisible by 5     : ${divBy5}`);
 
 console.log("----------------------------------------");
-// Single Number Check (Example: 28)
+// Single Number Check
 let num = 28;
 let factorSum = 0;
 

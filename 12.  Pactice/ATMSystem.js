@@ -1,4 +1,4 @@
-// ATM Transaction System - Practice Program
+// ATM System
 
 let accountHolder = "Shubham";
 let accountNumber = "SBI-889922";
@@ -16,7 +16,7 @@ console.log(`Initial Balance: ₹${currentBalance}`);
 
 console.log("----------------------------------------");
 
-// Transaction 1: Cash Deposit
+// 1. Cash Deposit
 let depositAmount = 5000;
 currentBalance += depositAmount;
 console.log(`Deposit Amount : +₹${depositAmount}`);
@@ -24,7 +24,7 @@ console.log(`After Deposit  : ₹${currentBalance}`);
 
 console.log("----------------------------------------");
 
-// Transaction 2: Cash Withdrawal
+// 2. Cash Withdrawal
 let withdrawAmount = 3000;
 
 if (withdrawAmount <= currentBalance) {

@@ -6,7 +6,7 @@ const unitsConsumed = 245;
 
 let energyCharges = 0;
 
-// Slab calculation (Units ke hisab se rate)
+// Slab calculation
 if (unitsConsumed <= 100) {
     energyCharges = unitsConsumed * 3.5;
 } else if (unitsConsumed <= 200) {

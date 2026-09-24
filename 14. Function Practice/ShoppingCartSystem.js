@@ -1,32 +1,19 @@
-// ==========================================
-// 🛒 SHOPPING CART & BILLING SYSTEM USING FUNCTIONS
-// ==========================================
-// Is program mein cover kiye gaye concepts:
-// 1. Functions with State (Cart management)
-// 2. Parameters, Default Parameters & Validation
-// 3. Arrow Functions
-// 4. Return Objects & Numbers
-// 5. Array iteration inside Functions
-// ==========================================
+// Shopping Cart & Billing System
 
 console.log("========================================");
 console.log("    🛍️  E-COMMERCE SHOPPING CART SYSTEM");
 console.log("========================================\n");
 
-// Cart Data (Global State)
+// Cart Data
 let cart = [];
 
-// ------------------------------------------
-// Function 1: Add Item to Cart (Function Declaration)
-// Parameters: itemName, price, quantity (default = 1)
-// ------------------------------------------
+// 1. Add Item to Cart
 function addToCart(itemName, price, quantity = 1) {
     if (price <= 0 || quantity <= 0) {
         console.log(`❌ [ERROR] Invalid price or quantity for ${itemName}`);
         return false;
     }
 
-    // Check karte hain agar item pehle se cart me hai
     let existingItem = cart.find(item => item.name.toLowerCase() === itemName.toLowerCase());
 
     if (existingItem) {
@@ -44,10 +31,7 @@ function addToCart(itemName, price, quantity = 1) {
     return true;
 }
 
-// ------------------------------------------
-// Function 2: Remove Item from Cart (Function Expression)
-// Parameters: itemName, quantityToRemove (optional)
-// ------------------------------------------
+// 2. Remove Item from Cart
 const removeFromCart = function (itemName, quantityToRemove = null) {
     const itemIndex = cart.findIndex(item => item.name.toLowerCase() === itemName.toLowerCase());
 
@@ -59,11 +43,9 @@ const removeFromCart = function (itemName, quantityToRemove = null) {
     const item = cart[itemIndex];
 
     if (quantityToRemove === null || quantityToRemove >= item.quantity) {
-        // Pura item remove kar do
         cart.splice(itemIndex, 1);
         console.log(`🗑️ [REMOVED] "${itemName}" ko cart se hata diya gaya.`);
     } else {
-        // Quantity kam karo
         item.quantity -= quantityToRemove;
         console.log(`➖ [REDUCED] "${itemName}" ki quantity -${quantityToRemove} kam hui (Remaining: ${item.quantity}).`);
     }
@@ -71,18 +53,12 @@ const removeFromCart = function (itemName, quantityToRemove = null) {
     return true;
 };
 
-// ------------------------------------------
-// Function 3: Subtotal Calculate karna (Arrow Function)
-// Return: Cart ka total bina discount aur tax ke
-// ------------------------------------------
+// 3. Calculate Subtotal
 const calculateSubtotal = () => {
     return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 };
 
-// ------------------------------------------
-// Function 4: Coupon Discount Apply karna (Normal Function)
-// Return: { discountAmount, message }
-// ------------------------------------------
+// 4. Apply Coupon Discount
 function applyCoupon(subtotal, couponCode) {
     if (!couponCode) {
         return { discountAmount: 0, message: "No coupon applied" };
@@ -92,41 +68,35 @@ function applyCoupon(subtotal, couponCode) {
 
     switch (code) {
         case "WELCOME10":
-            // 10% discount sabhi par
-            const discount10 = subtotal * 0.10;
             return {
-                discountAmount: Math.round(discount10),
+                discountAmount: Math.round(subtotal * 0.10),
                 message: "WELCOME10 applied (10% OFF)"
             };
 
         case "FLAT100":
-            // Flat ₹100 off agar subtotal >= ₹500
             if (subtotal >= 500) {
                 return {
                     discountAmount: 100,
                     message: "FLAT100 applied (₹100 FLAT OFF)"
                 };
-            } else {
-                return {
-                    discountAmount: 0,
-                    message: "FLAT100 requires minimum cart value of ₹500"
-                };
             }
+            return {
+                discountAmount: 0,
+                message: "FLAT100 requires minimum cart value of ₹500"
+            };
 
         case "SUPER20":
-            // 20% discount up to max ₹400 on subtotal >= ₹1000
             if (subtotal >= 1000) {
                 const discount = Math.min(subtotal * 0.20, 400);
                 return {
                     discountAmount: Math.round(discount),
-                    message: `SUPER20 applied (20% OFF up to ₹400)`
-                };
-            } else {
-                return {
-                    discountAmount: 0,
-                    message: "SUPER20 requires minimum cart value of ₹1000"
+                    message: "SUPER20 applied (20% OFF up to ₹400)"
                 };
             }
+            return {
+                discountAmount: 0,
+                message: "SUPER20 requires minimum cart value of ₹1000"
+            };
 
         default:
             return {
@@ -136,16 +106,12 @@ function applyCoupon(subtotal, couponCode) {
     }
 }
 
-// ------------------------------------------
-// Function 5: Tax (GST) Calculate karna (Arrow Function with Default Parameter)
-// ------------------------------------------
+// 5. Calculate GST (Tax)
 const calculateTax = (amount, taxPercent = 18) => {
     return Number(((amount * taxPercent) / 100).toFixed(2));
 };
 
-// ------------------------------------------
-// Function 6: Print Complete Bill / Invoice (Function Declaration)
-// ------------------------------------------
+// 6. Print Invoice
 function printInvoice(customerName, couponCode = null) {
     if (cart.length === 0) {
         console.log("🛒 Cart is empty! Bill generate nahi ho sakta.\n");
@@ -188,19 +154,15 @@ function printInvoice(customerName, couponCode = null) {
     console.log("========================================\n");
 }
 
-
-// ==========================================
-// 🚀 DEMO / EXECUTION TEST
-// ==========================================
-
+// Demo execution
 console.log("--- 1. Items Cart me add kar rahe hain ---");
 addToCart("Wireless Mouse", 500, 1);
 addToCart("Mechanical Keyboard", 1500, 1);
 addToCart("USB-C Cable", 250, 2);
-addToCart("Wireless Mouse", 500, 1); // Quantity update test (1 se 2 hogi)
+addToCart("Wireless Mouse", 500, 1);
 
 console.log("\n--- 2. Ek item ki quantity kam kar rahe hain ---");
-removeFromCart("USB-C Cable", 1); // 2 se 1 ho jayegi
+removeFromCart("USB-C Cable", 1);
 
 console.log("\n--- 3. Final Invoice Generate kar rahe hain ---");
 printInvoice("Shubham", "SUPER20");

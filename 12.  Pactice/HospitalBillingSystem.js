@@ -38,29 +38,29 @@ switch (wardCategory) {
 const totalRoomCharges = roomTariffPerDay * daysAdmitted;
 const totalNursingCharges = nursingCarePerDay * daysAdmitted;
 
-// Doctor & Specialist consultations
+// Consultations
 const physicianVisitFee = 1500 * daysAdmitted;
 const specialistVisits = 3;
 const specialistFeePerVisit = 2200;
 const totalSpecialistFees = specialistVisits * specialistFeePerVisit;
 
-// Medical investigations & pharmacy
+// Pharmacy & investigations
 const labInvestigationFees = 5400;
 const radiologyScanFees = 7800;
 const pharmacyMedicineBill = 12400;
 const surgicalConsumables = 3800;
 
-// Hospital administrative fees
+// Admin fees
 const admissionRegistrationFee = 1200;
 const sanitizationEquipmentFee = 1000;
 
-// Total hospital gross charges
+// Gross charges
 const grossMedicalCharges = totalRoomCharges + totalNursingCharges + physicianVisitFee +
     totalSpecialistFees + labInvestigationFees + radiologyScanFees +
     pharmacyMedicineBill + surgicalConsumables + admissionRegistrationFee +
     sanitizationEquipmentFee;
 
-// Health Insurance processing
+// Insurance processing
 const hasInsurance = true;
 const insuranceProvider = "Star Health & Allied Insurance";
 const policyNumber = "STAR-2026-HL-7731";

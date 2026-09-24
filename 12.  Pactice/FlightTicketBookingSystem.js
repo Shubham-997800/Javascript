@@ -34,7 +34,7 @@ switch (travelClass) {
         baggageAllowanceKg = 15;
 }
 
-// Trip multiplier (Round trip gets a 10% discount on base fare)
+// Round trip discount
 let tripMultiplier = 1;
 if (tripType === "Round Trip") {
     tripMultiplier = 1.9;
@@ -42,7 +42,7 @@ if (tripType === "Round Trip") {
 
 const totalBaseFare = baseFarePerPax * numberOfPassengers * tripMultiplier;
 
-// Extra baggage calculation
+// Extra baggage
 let extraBaggageKg = 0;
 if (baggageWeightKg > baggageAllowanceKg) {
     extraBaggageKg = baggageWeightKg - baggageAllowanceKg;
@@ -50,7 +50,7 @@ if (baggageWeightKg > baggageAllowanceKg) {
 const extraBaggageRatePerKg = 450;
 const totalBaggageFee = extraBaggageKg * extraBaggageRatePerKg * numberOfPassengers;
 
-// Preferred seat selection
+// Seat selection
 const seatPreference = "Extra Legroom"; // Standard, Window, Aisle, Extra Legroom
 let seatSelectionFeePerPax;
 switch (seatPreference) {
@@ -68,7 +68,7 @@ switch (seatPreference) {
 }
 const totalSeatFee = seatSelectionFeePerPax * numberOfPassengers;
 
-// In-flight meal selection
+// Meal selection
 const mealChoice = "Gourmet Hot Meal"; // None, Standard Snack, Gourmet Hot Meal
 let mealChargePerPax;
 switch (mealChoice) {
@@ -83,7 +83,7 @@ switch (mealChoice) {
 }
 const totalMealCharge = mealChargePerPax * numberOfPassengers;
 
-// Add-on services: Travel Insurance & Lounge
+// Add-on services
 const includeInsurance = true;
 const insuranceCharge = includeInsurance ? 499 * numberOfPassengers : 0;
 
@@ -93,7 +93,7 @@ const loungeCharge = includeLoungeAccess ? 1200 * numberOfPassengers : 0;
 // Subtotal
 const flightSubtotal = totalBaseFare + totalBaggageFee + totalSeatFee + totalMealCharge + insuranceCharge + loungeCharge;
 
-// Airport Taxes
+// Airport taxes
 const userDevelopmentFee = 650 * numberOfPassengers;
 const aviationSecurityFee = 250 * numberOfPassengers;
 const passengerServiceFee = 350 * numberOfPassengers;

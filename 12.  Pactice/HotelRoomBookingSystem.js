@@ -40,7 +40,7 @@ switch (mealPlan) {
 const totalRoomCharges = roomRatePerNight * numberOfNights;
 const totalMealCharges = mealChargePerDay * numberOfNights;
 
-// Extra person charge if guests > 2
+// Extra person charge
 let extraPersonCharges = 0;
 if (numberOfGuests > 2) {
     extraPersonCharges = (numberOfGuests - 2) * 1200 * numberOfNights;
@@ -49,7 +49,7 @@ if (numberOfGuests > 2) {
 const serviceCharge = 500;
 const roomSubtotal = totalRoomCharges + totalMealCharges + extraPersonCharges + serviceCharge;
 
-// Weekend surcharge (10% if applicable)
+// Weekend surcharge
 const isWeekendStay = true;
 let peakSurcharge = 0;
 if (isWeekendStay) {
@@ -58,7 +58,7 @@ if (isWeekendStay) {
 
 const amountBeforeTax = roomSubtotal + peakSurcharge;
 
-// GST slab: 12% if room rate <= 7500, else 18%
+// GST slab
 let gstRate = 12;
 if (roomRatePerNight > 7500) {
     gstRate = 18;
