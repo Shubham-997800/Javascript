@@ -6,7 +6,7 @@ let accountNumber = "SBI-889922";
 let balance = 15000;
 let transactionHistory = [];
 
-// Helper: record transaction
+// Record transaction
 function recordTransaction(type, amount, currentBal) {
     transactionHistory.push({
         type: type,
@@ -16,13 +16,13 @@ function recordTransaction(type, amount, currentBal) {
     });
 }
 
-// 1. Check Balance
+// Check balance
 const checkBalance = () => {
     console.log(`ℹ️ [BALANCE] Current Balance: ₹${balance}`);
     return balance;
 };
 
-// 2. Deposit Money
+// Deposit money
 function deposit(amount) {
     if (amount <= 0) {
         console.log("❌ [ERROR] Deposit amount must be greater than 0!");
@@ -35,7 +35,7 @@ function deposit(amount) {
     return true;
 }
 
-// 3. Withdraw Money
+// Withdraw money
 function withdraw(amount) {
     if (amount <= 0) {
         console.log("❌ [ERROR] Invalid withdrawal amount!");
@@ -53,7 +53,7 @@ function withdraw(amount) {
     return true;
 }
 
-// 4. Mini Statement
+// Mini statement
 function printMiniStatement() {
     console.log("\n========================================");
     console.log("         🏧 ATM MINI STATEMENT");
@@ -77,7 +77,7 @@ function printMiniStatement() {
     console.log("========================================\n");
 }
 
-// Demo Operations
+// Demo operations
 console.log("========================================");
 console.log("       WELCOME TO SBI ATM SYSTEM");
 console.log("========================================\n");

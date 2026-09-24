@@ -1,10 +1,10 @@
-// Student Report & Grading System
+// Student Report System
 
 console.log("========================================");
 console.log("    🏫 STUDENT REPORT CARD SYSTEM");
 console.log("========================================\n");
 
-// 1. Calculate Total Marks
+// Calculate total marks
 function calculateTotalMarks(marksObj) {
     let total = 0;
     for (let subject in marksObj) {
@@ -13,14 +13,14 @@ function calculateTotalMarks(marksObj) {
     return total;
 }
 
-// 2. Calculate Percentage
+// Calculate percentage
 const calculatePercentage = (total, totalSubjects, maxMarksPerSubject = 100) => {
     let maxTotal = totalSubjects * maxMarksPerSubject;
     let percentage = (total / maxTotal) * 100;
     return Number(percentage.toFixed(2));
 };
 
-// 3. Assign Grade
+// Assign grade
 const getGrade = function (percentage) {
     if (percentage >= 90) return "A+ (Outstanding)";
     if (percentage >= 80) return "A (Excellent)";
@@ -30,7 +30,7 @@ const getGrade = function (percentage) {
     return "F (Fail)";
 };
 
-// 4. Check Pass/Fail Status (Passing Marks = 33)
+// Check pass or fail status
 const checkPassStatus = (marksObj, passingMarks = 33) => {
     for (let subject in marksObj) {
         if (marksObj[subject] < passingMarks) {
@@ -46,7 +46,7 @@ const checkPassStatus = (marksObj, passingMarks = 33) => {
     };
 };
 
-// 5. Print Report Card
+// Print report card
 function printReportCard(student) {
     const subjects = Object.keys(student.marks);
     const totalMarks = calculateTotalMarks(student.marks);
@@ -77,7 +77,7 @@ function printReportCard(student) {
     console.log("----------------------------------------\n");
 }
 
-// 6. Find Class Topper
+// Find class topper
 function findTopper(studentsList) {
     if (!studentsList || studentsList.length === 0) return null;
 
@@ -100,7 +100,7 @@ function findTopper(studentsList) {
     };
 }
 
-// Demo data & execution
+// Demo execution
 const students = [
     {
         name: "Shubham",

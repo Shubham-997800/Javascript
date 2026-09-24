@@ -1,13 +1,13 @@
-// Shopping Cart & Billing System
+// Shopping Cart System
 
 console.log("========================================");
 console.log("    🛍️  E-COMMERCE SHOPPING CART SYSTEM");
 console.log("========================================\n");
 
-// Cart Data
+// Cart data
 let cart = [];
 
-// 1. Add Item to Cart
+// Add item to cart
 function addToCart(itemName, price, quantity = 1) {
     if (price <= 0 || quantity <= 0) {
         console.log(`❌ [ERROR] Invalid price or quantity for ${itemName}`);
@@ -31,7 +31,7 @@ function addToCart(itemName, price, quantity = 1) {
     return true;
 }
 
-// 2. Remove Item from Cart
+// Remove item from cart
 const removeFromCart = function (itemName, quantityToRemove = null) {
     const itemIndex = cart.findIndex(item => item.name.toLowerCase() === itemName.toLowerCase());
 
@@ -53,12 +53,12 @@ const removeFromCart = function (itemName, quantityToRemove = null) {
     return true;
 };
 
-// 3. Calculate Subtotal
+// Calculate subtotal
 const calculateSubtotal = () => {
     return cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 };
 
-// 4. Apply Coupon Discount
+// Apply coupon discount
 function applyCoupon(subtotal, couponCode) {
     if (!couponCode) {
         return { discountAmount: 0, message: "No coupon applied" };
@@ -106,12 +106,12 @@ function applyCoupon(subtotal, couponCode) {
     }
 }
 
-// 5. Calculate GST (Tax)
+// Calculate GST tax
 const calculateTax = (amount, taxPercent = 18) => {
     return Number(((amount * taxPercent) / 100).toFixed(2));
 };
 
-// 6. Print Invoice
+// Print invoice
 function printInvoice(customerName, couponCode = null) {
     if (cart.length === 0) {
         console.log("🛒 Cart is empty! Bill generate nahi ho sakta.\n");
