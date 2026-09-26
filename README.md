@@ -17,3 +17,4 @@ Personal repository for learning and practicing JavaScript concepts from basics 
 11. **Loops**
 12. **Practice**
 13. **Function**
+14. **Function Practice**
